@@ -9,17 +9,12 @@ namespace AppChargeTestAssignment.Scripts {
         [SerializeField] private MessagePopup _messagePopupPrefab;
         [SerializeField] private GameObject _purchaseProcessView;
 
-        private void Awake() {
+        private void Start() {
             AppChargeManager.Instance.Initialize();
-        }
-
-        private void OnEnable() {
             ProductView.PurchaseClicked += ProductViewOnPurchaseClicked;
             AppChargeManager.Instance.StoreManager.ProductPurchased += StoreManagerOnProductPurchased;
             AppChargeManager.Instance.StoreManager.ProductPurchaseFailed += StoreManagerOnProductPurchaseFailed;
-        }
-
-        private void Start() {
+            
             var storeView = Instantiate(_storeViewPrefab);
             storeView.Initialize(AppChargeManager.Instance.ProductRepository.EnumerateProducts());
         }
@@ -41,7 +36,7 @@ namespace AppChargeTestAssignment.Scripts {
             _purchaseProcessView.SetActive(false);
         }
 
-        private void OnDisable() {
+        private void OnDestroy() {
             ProductView.PurchaseClicked -= ProductViewOnPurchaseClicked;
             AppChargeManager.Instance.StoreManager.ProductPurchased -= StoreManagerOnProductPurchased;
             AppChargeManager.Instance.StoreManager.ProductPurchaseFailed -= StoreManagerOnProductPurchaseFailed;
